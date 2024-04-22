@@ -17,6 +17,6 @@ CORS(app=app)
 # mysql = MySQL(app=app)
 
 # with SQLAlchemy
-app.config["SQLALCHEMY_DATABASE_URI"] = "mysql://root:12345678@127.0.0.1:3306/auto_tag_web_db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:12345678@127.0.0.1:3306/auto_tag_web_db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app=app)
