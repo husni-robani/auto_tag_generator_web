@@ -11,7 +11,34 @@ def index():
     return jsonify({
         "journals": json_journals
     })
-    # return "success"
+
+@app.route('/api/create_journal', methods=["POST"])
+def store():
+    author = request.json.get("author")
+    title = request.json.get("title")
+    abstract = request.json.get("abstract")
+    study_program = request.json.get("study_program")
+
+    if not author or not abstract or not title or not study_program:
+        return jsonify({
+            "message": "you must include author, title, abstract, and study_program"
+        }), 400
+    
+    new_journal = Journal(author=author, title=title, abstract=abstract, study_program=study_program)
+
+    try:
+        db.session.add(new_journal)
+        db.session.commit()
+    except Exception as e:
+        return jsonify({
+            "message": e
+        }), 400
+    
+    return jsonify({
+        "message": "Journal created!!!"
+    }), 201
+
+
 
 
 if __name__ == "__main__":
