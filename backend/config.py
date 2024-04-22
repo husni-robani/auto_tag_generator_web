@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_cors import CORS
-from flask_mysqldb import MySQL
 from flask_sqlalchemy import SQLAlchemy
 
 # flask instance
