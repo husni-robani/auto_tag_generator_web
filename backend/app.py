@@ -4,7 +4,7 @@ from flask import request, jsonify
 
 # creating cursor connection database
 
-@app.route('/')
+@app.route('/api/journals')
 def index():
     journals = Journal.query.all()
     json_journals = list(map(lambda x: x.to_json(), journals)) 
@@ -12,7 +12,7 @@ def index():
         "journals": json_journals
     })
 
-@app.route('/api/create_journal', methods=["POST"])
+@app.route('/api/store_journal', methods=["POST"])
 def store():
     author = request.json.get("author")
     title = request.json.get("title")
