@@ -2,17 +2,17 @@ import Layout from "../Layout";
 import JournalForm from "../components/JournalForm";
 
 export default function NewJournal({ model_api_url, web_api_url }) {
-  const handleSubmit = async (inputValues) => {
-    // predict study program
-    const study_program = await predict_study_program(inputValues.abstract);
+  const handleSubmit = async (inputValues, file) => {
+    const data = new FormData();
+    data.append("author", inputValues.author);
+    data.append("title", inputValues.title);
+    data.append("abstract", inputValues.abstract);
+    data.append("file", file);
 
-    // Store Data
-    const data = {
-      author: inputValues.author,
-      title: inputValues.title,
-      abstract: inputValues.abstract,
-      study_program: study_program,
-    };
+    // predict study program
+    const study_program = await predict_study_program([data.get("abstract")]);
+    data.append("study_program", study_program);
+
     store_journal(data);
   };
 
@@ -23,7 +23,9 @@ export default function NewJournal({ model_api_url, web_api_url }) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ abstract }),
+      body: JSON.stringify({
+        abstract,
+      }),
     };
 
     const response = await fetch(url, options);
@@ -33,7 +35,7 @@ export default function NewJournal({ model_api_url, web_api_url }) {
       alert(errors.message);
     } else {
       const respone_json = await response.json();
-      return respone_json.result;
+      return respone_json.results;
     }
   };
 
@@ -41,10 +43,7 @@ export default function NewJournal({ model_api_url, web_api_url }) {
     const url = web_api_url + "/api/store_journal";
     const options = {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
+      body: data,
     };
     const response = await fetch(url, options);
 
@@ -52,7 +51,7 @@ export default function NewJournal({ model_api_url, web_api_url }) {
       const errors = await response.json();
       alert(errors.message);
     } else {
-      updateCallback(); // undefined function
+      // updateCallback(); // undefined function
     }
   };
 
