@@ -1,4 +1,5 @@
 import { useState } from "react";
+import journal_cover from "../assets/journal_cover.png";
 
 useState;
 export default function JournalCard({
@@ -16,7 +17,7 @@ export default function JournalCard({
 
   const abstractClass = () => {
     return isTruncate == true
-      ? "font-light line-clamp-4 text-justify"
+      ? "font-light line-clamp-6 text-justify"
       : "font-light line-clamp-none text-justify";
   };
 
@@ -40,10 +41,11 @@ export default function JournalCard({
           </div>
           {/* image */}
           <div className="flex flex-col items-center basis-1/5">
-            <div className=" w-36 h-full ">
+            <div className=" w-40 h-64">
               <img
-                src="https://source.unsplash.com/random/350x500"
-                className="object-cover w-full h-full rounded-md"
+                // src="https://source.unsplash.com/random/350x500"
+                src={journal_cover}
+                className="object-cover w-full h-full rounded-md border"
                 alt="Journal Image"
               />
             </div>
